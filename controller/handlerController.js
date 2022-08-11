@@ -34,6 +34,7 @@ const getAll = catchErrAsync(
     } else if (options2) {
       data = await filter.model.populate(options1).populate(options2);
     } else if (options1) {
+      console.log(options1);
       data = await filter.model.populate(options1);
     } else {
       data = await filter.model;

@@ -10,12 +10,12 @@ userRouter.route("/resetPassword/:token").post(authController.resetPassword);
 
 userRouter
   .route("/")
-  .get(userController.getAllUsers)
-  .post(userController.addUser);
+  .get(userController.getAlluser)
+  .post(userController.postAlluser);
 
 userRouter
   .route("/:id")
-  .get(userController.getOneUser)
+  .get(userController.getUserById)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 

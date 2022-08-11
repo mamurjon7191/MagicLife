@@ -1,4 +1,4 @@
-const User = require("../model/userModel");
+const User = require("../models/userModel");
 const catchErrLittle = require("../utility/catchErrorLittle");
 const bcrypt = require("bcrypt");
 const Email = require("../utility/mail");

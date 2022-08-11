@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
-const catchErrAsync = require("../utility/catchAsync");
-const catchErrAsyncAuth = require("../utility/catchAsyncAuth");
+const catchErrAsync = require("../utility/catchErrorAsync");
+const catchErrorLittle = require("../utility/catchErrorLittle");
 const authController = require("./authController");
 
 // -----Sharp faylni sizeni kichraytirish
@@ -51,16 +51,22 @@ const resizeImage = async (req, res, next) => {
 const bcrypt = require("bcryptjs");
 const AppError = require("../utility/appError");
 const { createToken } = require("./authController");
+
 const {
   getAll,
   getOne,
   add,
   update,
   deleteData,
-} = require("../controllers/handlerController");
+} = require("../controller/handlerController");
+
+const options1 = {
+  path: "accountId",
+};
 
 const getAlluser = (req, res, next) => {
-  getAll(req, res, next, User);
+  console.log("getAlluserga kirdi");
+  getAll(req, res, next, User, options1);
 };
 
 const postAlluser = (req, res, next) => {
@@ -68,7 +74,7 @@ const postAlluser = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  getOne(req, res, next, User);
+  getOne(req, res, next, User, options1);
 };
 
 const deleteUser = (req, res, next) => {
@@ -81,7 +87,7 @@ const updateUser = (req, res, next) => {
 
 // Bu saytga kirgandan keyin parolini ozgartirish
 
-const updateMyPassword = catchErrAsyncAuth(async (req, res, next) => {
+const updateMyPassword = catchErrorLittle(async (req, res, next) => {
   // 1. Eski password kiritilganmi yoki yoqmi
 
   if (!req.body.oldPassword) {
@@ -130,7 +136,7 @@ const updateMyPassword = catchErrAsyncAuth(async (req, res, next) => {
   });
 });
 
-const updateMe = catchErrAsyncAuth(async (req, res, next) => {
+const updateMe = catchErrorLittle(async (req, res, next) => {
   console.log(req.file);
   // 1. Malumotlarni yangilash
 
@@ -150,7 +156,7 @@ const updateMe = catchErrAsyncAuth(async (req, res, next) => {
   next();
 });
 
-const deleteMe = catchErrAsyncAuth(async (req, res, next) => {
+const deleteMe = catchErrorLittle(async (req, res, next) => {
   // User ni topamiz
 
   const user = await User.findById(req.user.id).select("+active +password");
